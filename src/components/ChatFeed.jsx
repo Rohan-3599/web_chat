@@ -5,6 +5,16 @@ import TheirMessage from './TheirMessage'
 const ChatFeed = (props) => {
     const { chats , activeChat , userName , messages} = props;
     const chat = chats && chats[activeChat]
+    const renderReadReceipts = (message, isMyMessage) => chat.people.map((person, index) => person.last_read === message.id && (
+        <div
+          key={`read_${index}`}
+          className="read-receipt"
+          style={{
+            float: isMyMessage ? 'right' : 'left',
+            backgroundImage:  person.person.avatar && `url(${person.person.avatar})`,
+          }}
+        />
+      ));
     const renderMessages = () => {
         const keys = Object.keys(messages)
         console.log(keys)
@@ -22,7 +32,7 @@ const ChatFeed = (props) => {
                      }
                     </div>
                     <div className="read-receipts" styles= {{ marginRight : isMyMessage ? '18px' : '0px' , marginLeft : isMyMessage ? '0px' : '68px'}}>
-                        read-receipts
+                        {renderReadReceipts(message, isMyMessage)}
                     </div>
 
                 </div>
